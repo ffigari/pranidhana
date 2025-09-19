@@ -1,0 +1,7 @@
+[[servers]]
+	name="web-personal"
+	port=3000
+
+[[servers]]
+	name="gastos"
+	port=3001

@@ -1,0 +1,12 @@
+{
+  "name": "web-personal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {
+    "@pranidhana/lib": "file:../lib"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

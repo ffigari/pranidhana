@@ -1,6 +1,6 @@
 import { createHTTPServer } from "@pranidhana/lib";
 
-const name = "gastos"
+const name = "web-personal"
 
 const port = 3000
 

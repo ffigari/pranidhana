@@ -1,0 +1,7 @@
+[[httpServers]]
+	app="web-personal"
+	port=3000
+
+[[httpServers]]
+	app="gastos"
+	port=3001

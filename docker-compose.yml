@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  web-personal:
+    build:
+      context: .
+      dockerfile: web-personal/Dockerfile
+    image: web-personal
+    container_name: web-personal
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+
+  gastos:
+    build:
+      context: .
+      dockerfile: gastos/Dockerfile
+    image: gastos
+    container_name: gastos
+    ports:
+      - "3002:3000"
+    restart: unless-stopped
