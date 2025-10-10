@@ -19,6 +19,7 @@ FROM node:20-slim
 
 WORKDIR /app
 
+COPY --from=builder /app/gastos/node_modules /app/gastos/node_modules
 COPY --from=builder /app/lib/node_modules /app/gastos/node_modules/@pranidhana/lib/node_modules
 COPY --from=builder /app/lib/dist /app/gastos/node_modules/@pranidhana/lib/
 COPY --from=builder /app/gastos/dist /app/gastos/dist
