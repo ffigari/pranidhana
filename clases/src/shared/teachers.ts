@@ -1,3 +1,3 @@
 export class Teacher {
-	constructor(public id: number) {}
+  constructor(public id: number) {}
 }
