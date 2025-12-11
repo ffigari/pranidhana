@@ -30,6 +30,12 @@ COPY --from=builder /app/clases/dist /app/clases/dist
 
 WORKDIR /app/clases
 
+ENV PGUSER=figari
+ENV PGHOST=localhost
+ENV PGDATABASE=clases
+ENV PGPORT=5432
+ENV PGPASSWORD=
+
 EXPOSE 3000
 
 CMD ["node", "dist/server/server/index.js"]
