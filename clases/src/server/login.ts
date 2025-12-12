@@ -2,7 +2,7 @@ import { errorCodes } from "@shared/login";
 import { Express } from "express";
 import path from "path";
 
-import { getUser } from "./persistence";
+import { getUser } from "./persistence/user";
 
 export const login = (app: Express, entrypointsDir: string) => {
   app.get("/login", (_, res) => {
@@ -17,7 +17,7 @@ export const login = (app: Express, entrypointsDir: string) => {
       return;
     }
 
-    const user = await getUser(username);
+    const user = await getUser({ username });
 
     if (!user) {
       res.status(401).json({ errors: [errorCodes.userNotFound] });

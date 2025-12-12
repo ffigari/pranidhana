@@ -1,9 +1,10 @@
 import { FormEvent, useEffect, useState } from "react";
 
 import { Button, Container, Stack, Typography } from "@mui/material";
-import { paths } from "@shared/paths";
+import { userHasTeacherInfo, userIsTeacher } from "@shared/user";
 
-import { Me, useMe } from "../shared/me";
+import { useMe } from "../shared/me";
+import { Topbar } from "../shared/topbar";
 
 const AlreadyTeacher = () => {
   const [countdown, setCountdown] = useState(5);
@@ -12,7 +13,7 @@ const AlreadyTeacher = () => {
     const interval = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
-          window.location.href = paths.home;
+          window.location.href = "/";
           return 0;
         }
         return prev - 1;
@@ -24,7 +25,7 @@ const AlreadyTeacher = () => {
 
   return (
     <>
-      <Me />
+      <Topbar />
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Typography variant="h3" gutterBottom>
           Teacher Signup
@@ -46,13 +47,13 @@ const TeacherSignupForm = () => {
 
     setLoading(true);
 
-    const response = await fetch(paths.apiTeachers, {
+    const response = await fetch("/api/teachers", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
 
     if (response.ok) {
-      window.location.href = paths.dojos;
+      window.location.href = "/dojos";
     }
 
     setLoading(false);
@@ -60,7 +61,7 @@ const TeacherSignupForm = () => {
 
   return (
     <>
-      <Me />
+      <Topbar />
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Typography variant="h3" gutterBottom>
           Teacher Signup
@@ -86,7 +87,11 @@ const TeacherSignupForm = () => {
 export const TeacherSignup = () => {
   const fetchedUser = useMe();
 
-  if (fetchedUser.status === "authenticated" && fetchedUser.user.isTeacher) {
+  if (
+    fetchedUser.status === "authenticated" &&
+    userHasTeacherInfo(fetchedUser.user) &&
+    userIsTeacher(fetchedUser.user)
+  ) {
     return <AlreadyTeacher />;
   }
 

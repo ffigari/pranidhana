@@ -1,7 +1,8 @@
 import { Button, Container, Stack, Typography } from "@mui/material";
-import { paths } from "@shared/paths";
+import { userHasTeacherInfo, userIsTeacher } from "@shared/user";
 
-import { FetchedUser, Me } from "../../shared/me";
+import { FetchedUser } from "../../shared/me";
+import { Topbar } from "../../shared/topbar";
 
 interface HomeViewProps {
   fetchedUser: FetchedUser;
@@ -10,7 +11,7 @@ interface HomeViewProps {
 export const HomeView = ({ fetchedUser }: HomeViewProps) => {
   return (
     <>
-      <Me />
+      <Topbar />
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Typography variant="h3" gutterBottom>
           Dojo!
@@ -19,19 +20,23 @@ export const HomeView = ({ fetchedUser }: HomeViewProps) => {
           Dónde se encuentran estudiantes y profesores.
         </Typography>
         <Stack spacing={2}>
-          <Button href={paths.classes} variant="outlined">
+          <Button href="/classes" variant="outlined">
             Mirá todas las clases disponibles
           </Button>
-          <Button href={paths.dojoSignup} variant="outlined">
+          <Button href="/dojos" variant="outlined">
+            Ver todos los dojos
+          </Button>
+          <Button href="/dojo-signup" variant="outlined">
             Abrí un dojo
           </Button>
           {fetchedUser.status === "authenticated" &&
-          fetchedUser.user.isTeacher ? (
-            <Button href={paths.myClasses} variant="outlined">
+          userHasTeacherInfo(fetchedUser.user) &&
+          userIsTeacher(fetchedUser.user) ? (
+            <Button href="/my-classes" variant="outlined">
               Ver mis clases
             </Button>
           ) : (
-            <Button href={paths.teacherSignup} variant="outlined">
+            <Button href="/teacher-signup" variant="outlined">
               Registrate como profe
             </Button>
           )}

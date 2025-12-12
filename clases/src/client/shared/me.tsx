@@ -1,6 +1,5 @@
 import { Box, Link, Typography } from "@mui/material";
 import { errorCodes } from "@shared/me";
-import { paths } from "@shared/paths";
 import { User } from "@shared/user";
 import { useQuery } from "@tanstack/react-query";
 
@@ -75,7 +74,10 @@ export const Me = () => {
       {fetchedUser.status === "unauthenticated" && (
         <Typography>
           Not logged in.{" "}
-          <Link href={paths.login} underline="hover">
+          <Link
+            href={`/login?redirectTo=${encodeURIComponent(window.location.pathname)}`}
+            underline="hover"
+          >
             Go to /login
           </Link>
         </Typography>

@@ -1,26 +1,25 @@
-import { paths } from "@shared/paths";
 import { Express } from "express";
 import path from "path";
 
-import { registerTeacher } from "./persistence";
+import { registerTeacher } from "./persistence/teacher";
 
 export const teacher = (app: Express, entrypointsDir: string) => {
-  app.get(paths.teacherSignupLoginRequest, (_, res) => {
+  app.get("/teacher-signup-login-request", (_, res) => {
     res.sendFile(
       path.join(entrypointsDir, "teacher-signup-login-request.html")
     );
   });
 
-  app.get(paths.teacherSignup, (req, res) => {
+  app.get("/teacher-signup", (req, res) => {
     if (!req.session.userID) {
-      res.redirect(paths.teacherSignupLoginRequest);
+      res.redirect("/teacher-signup-login-request");
       return;
     }
 
     res.sendFile(path.join(entrypointsDir, "teacher-signup.html"));
   });
 
-  app.post(paths.apiTeachers, async (req, res) => {
+  app.post("/api/teachers", async (req, res) => {
     const userID = req.session.userID;
 
     if (!userID) {

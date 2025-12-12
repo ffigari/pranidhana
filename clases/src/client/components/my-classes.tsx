@@ -1,11 +1,11 @@
 import { Container, Typography } from "@mui/material";
 
-import { Me } from "../shared/me";
+import { Topbar } from "../shared/topbar";
 
 export const MyClasses = () => {
   return (
     <>
-      <Me />
+      <Topbar />
       <Container maxWidth="md" sx={{ py: 4 }}>
         <Typography variant="h3" gutterBottom>
           My Classes

@@ -1,5 +1,4 @@
 import { Button, Container, Link, Stack, Typography } from "@mui/material";
-import { paths } from "@shared/paths";
 
 export const DojoSignupLoginRequest = () => {
   return (
@@ -12,9 +11,7 @@ export const DojoSignupLoginRequest = () => {
         Antes de crear un dojo tenés que hacer login
       </Typography>
 
-      <Link href={`${paths.login}?redirectTo=${paths.dojoSignup}`}>
-        Ir al login
-      </Link>
+      <Link href="/login?redirectTo=/dojo-signup">Ir al login</Link>
     </Container>
   );
 };

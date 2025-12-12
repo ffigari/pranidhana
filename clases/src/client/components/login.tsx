@@ -9,7 +9,6 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { errorCodes } from "@shared/login";
 
 export const Login = () => {
   const [errors, setErrors] = useState<string[]>([]);

@@ -1,5 +1,4 @@
 import { Button, Container, Link, Stack, Typography } from "@mui/material";
-import { paths } from "@shared/paths";
 
 export const TeacherSignupLoginRequest = () => {
   return (
@@ -12,9 +11,7 @@ export const TeacherSignupLoginRequest = () => {
         Antes de registrarte como profe tenés que hacer login
       </Typography>
 
-      <Link href={`${paths.login}?redirectTo=${paths.teacherSignup}`}>
-        Ir al login
-      </Link>
+      <Link href="/login?redirectTo=/teacher-signup">Ir al login</Link>
     </Container>
   );
 };

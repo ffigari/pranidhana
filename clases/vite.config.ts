@@ -25,6 +25,7 @@ export default defineConfig({
         'my-classes': path.resolve(__dirname, 'src/client/entrypoints/my-classes.html'),
         'login': path.resolve(__dirname, 'src/client/entrypoints/login.html'),
         'dojos': path.resolve(__dirname, 'src/client/entrypoints/dojos.html'),
+        'dojo': path.resolve(__dirname, 'src/client/entrypoints/dojo.html'),
       },
     },
   },

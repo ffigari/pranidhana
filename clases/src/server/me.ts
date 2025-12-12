@@ -1,7 +1,7 @@
 import { errorCodes } from "@shared/me";
 import { Express } from "express";
 
-import { getUserById } from "./persistence";
+import { getUser } from "./persistence/user";
 
 export const me = (app: Express) => {
   app.get("/me", async (req, res) => {
@@ -12,7 +12,7 @@ export const me = (app: Express) => {
       return;
     }
 
-    const user = await getUserById(userID);
+    const user = await getUser({ id: userID }, { getTeacher: true });
 
     if (!user) {
       res.status(401).json({ errors: [errorCodes.notLoggedIn] });
