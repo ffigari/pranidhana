@@ -1,0 +1,13 @@
+:root {
+  --paragraphLargeColor: hsla(41.54, 23.64%, 89.22%, 1);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
