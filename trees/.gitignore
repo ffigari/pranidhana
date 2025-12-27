@@ -1,0 +1,16 @@
+.godot/
+export/
+build/
+godot-ui/.godot/
+godot-ui/export/
+godot-ui/build/
+
+# Temp / logs
+*.log
+*.tmp
+*.bak
+
+# macOS junk
+.DS_Store
+node-server/node_modules
+node-server/dist

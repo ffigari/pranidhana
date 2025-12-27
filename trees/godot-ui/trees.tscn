@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://g8x1r222aod5"]
+
+[ext_resource type="Script" uid="uid://buyqmv6rehqb5" path="res://trees.gd" id="1_el68p"]
+
+[sub_resource type="Gradient" id="Gradient_slfv4"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6hpk1"]
+gradient = SubResource("Gradient_slfv4")
+width = 8
+height = 8
+
+[node name="Trees" type="Node2D"]
+script = ExtResource("1_el68p")
+
+[node name="Point" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+texture = SubResource("GradientTexture2D_6hpk1")
