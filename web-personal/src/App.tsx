@@ -1,0 +1,63 @@
+function App() {
+  return (
+    <div className="container">
+      <div className="my-3">
+        <p>
+          Buenas!
+          <br />
+          Mi nombre es Francisco Figari, nací en el 95 y desde entonces vivo en Buenos
+          Aires.
+          <br />
+          De chiquito me divertía trepándome al jacarandá del jardín.
+          <br />
+          <img
+            style={{ width: "min(900px, 100%)" }}
+            src="/panoramica-de-casa.jpg"
+            alt="el jacarandá nos llenaba de flores cada año"
+          />
+        </p>
+        <p>
+          También me distraía con esas cosas maravillosas que son la computadora y
+          la internet y así de a poco fui aprendiendo a programar.
+          A fines de 2022 me licencié de{" "}
+          <a href="https://github.com/ffigari/rastreador-ocular">
+            computador científico
+          </a>{" "}
+          en FCEyN, UBA.
+          Tengo experiencia como ingeniero backend y desarrollador frontend.
+          También hice cositas de <i>R&D</i> (por ahí tengo{" "}
+          <a
+            href="https://www.linkedin.com/in/ffigari"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            linkedin
+          </a>
+          ,{" "}
+          <a href="/cv.pdf" download>
+            cv
+          </a>{" "}
+          and{" "}
+          <a href="/resume.pdf" download>
+            resume
+          </a>
+          ).
+        </p>
+        <p>
+          Disfruto editar texto en vim, diseñar sistemas alrededor de la
+          programación y pensar abstractamente sobre lenguajes.
+          Soy fan de comer ravioles provenientes de la casa de pastas más cercana.
+          En mi tiempo libre soy yogui.
+        </p>
+
+        <p>
+          Si querés ponerte en contacto podés escribirme por telegram (@ffigari).
+          También podés chusmear mi{" "}
+          <a href="https://github.com/ffigari">github</a>.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+export default App;

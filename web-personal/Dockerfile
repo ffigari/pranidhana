@@ -1,36 +1,29 @@
-FROM node:20 AS builder
-
-WORKDIR /app/lib
-COPY ../lib/package*.json ./
-COPY ../lib/tsconfig.json ./
-COPY ../lib/src ./src
-RUN npm install
-RUN npx tsc
-
-WORKDIR /app/web-personal
-COPY ./web-personal/package*.json ./
-COPY ./web-personal/tsconfig.json ./
-COPY ./web-personal/tsconfig.node.json ./
-COPY ./web-personal/tsconfig.web.json ./
-COPY ./web-personal/vite.config.ts ./
-COPY ./web-personal/src ./src
-RUN npm install
-RUN npm run build:server
-RUN npm run build:client
-
-
-FROM node:20-slim
+# Build stage
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY --from=builder /app/web-personal/node_modules /app/web-personal/node_modules
-COPY --from=builder /app/lib/node_modules /app/web-personal/node_modules/@pranidhana/lib/node_modules
-COPY --from=builder /app/lib/dist /app/web-personal/node_modules/@pranidhana/lib/
-COPY --from=builder /app/web-personal/dist /app/web-personal/dist
-COPY --from=builder /app/web-personal/src/pages /app/web-personal/dist/server/
+# Copy package files
+COPY package*.json ./
 
-WORKDIR /app/web-personal
+# Install dependencies
+RUN npm ci
+
+# Copy source files
+COPY . .
+
+# Build the app
+RUN npm run build
+
+# Production stage
+FROM nginx:alpine
+
+# Copy built assets from builder
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 3000
 
-CMD ["node", "dist/server/server/index.js"]
+CMD ["nginx", "-g", "daemon off;"]

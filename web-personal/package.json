@@ -1,32 +1,21 @@
 {
   "name": "web-personal",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "build:server": "tsc --project tsconfig.node.json && tsc-alias -p tsconfig.node.json && cp -r src/pages dist/server/",
-    "start": "node dist/server/server/index.js",
-    "dev:client": "vite",
-    "build:client": "vite build",
-    "preview:client": "vite preview",
-    "test": "vitest run"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
-    "@pranidhana/lib": "file:../lib",
-    "express": "^5.1.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@types/express": "^5.0.3",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
-    "@types/supertest": "^6.0.3",
-    "@vitejs/plugin-react": "^5.0.4",
-    "rollup": "^4.52.4",
-    "supertest": "^7.1.4",
-    "tsc-alias": "^1.8.16",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
     "typescript": "^5.9.3",
-    "vite": "^7.1.10",
-    "vitest": "^3.2.4"
+    "vite": "^5.0.0"
   }
 }
