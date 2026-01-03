@@ -17,8 +17,6 @@
     /* Path aliases */
     "baseUrl": ".",
     "paths": {
-      "@ui": ["src/ui"],
-      "@ui/*": ["src/ui/*"],
       "@log": ["src/log"],
       "@log/*": ["src/log/*"]
     },

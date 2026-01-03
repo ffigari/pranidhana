@@ -1,11 +1,10 @@
-import { loader } from "./loader";
 import { Entry, IndexedEntries } from "./models";
 
 interface i {
     getEntries(): IndexedEntries;
 }
 
-class Entries {
+export class Entries {
     private e: IndexedEntries;
 
     constructor(loader: i) {
@@ -30,5 +29,3 @@ class Entries {
         }
     }
 }
-
-export const entries = new Entries(loader);

@@ -27,8 +27,13 @@ export default tseslint.config(
           zones: [
             {
               target: './src/log',
-              from: './src/ui',
+              from: './src/web-ui',
               message: 'log module should not import from ui',
+            },
+            {
+              target: './src/log',
+              from: './src/cli',
+              message: 'log module should not import from cli',
             },
           ],
         },

@@ -1,8 +1,10 @@
-import { entries } from "@log";
+import { Entries } from "@log";
 
 import EntryView from "./EntryView";
+import { loader } from "./loader";
 
 function EntriesView() {
+    const entries = new Entries(loader);
     const entryList = Array.from(entries.iterate());
 
     return (

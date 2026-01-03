@@ -1,11 +1,11 @@
-import { IndexedEntries } from "./models";
-import { parseEntry } from "./parsing";
+import { IndexedEntries } from "@log/models";
+import { parseEntry } from "@log/parsing";
 
-class DiskLoader {
+class CompileTimeLogEntriesLoader {
     getEntries(): IndexedEntries {
         const res: IndexedEntries = new Map();
 
-        const entryFiles = import.meta.glob("./entries/**/*", {
+        const entryFiles = import.meta.glob("../../log/entries/**/*", {
             eager: true,
             query: "?raw",
             import: "default",
@@ -38,4 +38,4 @@ class DiskLoader {
     }
 }
 
-export const loader = new DiskLoader();
+export const loader = new CompileTimeLogEntriesLoader();
