@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Map App</title>
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"
+        />
+        <link rel="stylesheet" href="/src/styles.css" />
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            #map-container {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Shared state initialization -->
+        <script type="module" src="/src/shared.ts"></script>
+
+        <!-- Map container -->
+        <div id="map-container"></div>
+
+        <!-- Map initialization -->
+        <script type="module" src="/src/web-ui/map/init.ts"></script>
+
+        <!-- HUD overlay container -->
+        <div id="overlay-container"></div>
+
+        <!-- React HUD initialization -->
+        <script type="module" src="/src/web-ui/hud/init.tsx"></script>
+    </body>
+</html>
