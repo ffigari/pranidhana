@@ -1,0 +1,68 @@
+I want a small web app which persists and displays pieces of text. For the
+moment I want to focus on the user interfaces. This app will have three
+different interfaces:
+- a CLI with which you can interact directly with the instance when logged in
+  the same server
+- an API with which you can interact remotely (eg through curl)
+- an user friendly react app
+We will implement this using typescript.
+
+These three interfaces will share code. To begin with, we will have one
+    interface Entry {
+        text: string;
+        createdAt: Date;
+    }
+We need the following structure:
+    - src/cli  -> will contain the CLI specific code
+    - src/web-ui  -> will contain all the react app code
+    - src/web-api -> will contain the web-api code
+    - src/domain  -> will contain things like the model I described above
+
+The react app will be very simple. For the moment it should two routes:
+ - /  -> the home of the app; simply contains a paragraph explaining this is a
+   paste bin clone
+ - /entries/{id}  -> will display one single entry. For this it will perform a
+   GET /api/entries/{id} on startup
+Note that this is an SPA, so we need react routing here
+
+The WEB-API will have one single endpoint GET /api/entries/{id} which will serve the
+entry of the given ID
+
+But we will also have a CLI. The CLI will be called like this
+    `paste-bin-clone get entry {id}`
+
+Both the CLI and the WEB-API will request hardcoded data for the moment, but
+they will request it from the same place.
+Besides the four directories I mentioned above, we should have a fifth one:
+    - src/core
+There, at src/core/entries.ts we will have the following
+
+    import { Entry } from "@domain/entry"
+
+    class Entries {
+        getByID(id: string): Entry | null {
+            return {
+                text: "foo, hardcoded entry"
+            }
+        }
+    }
+
+
+Note that I used "@domain" in the import. This is because we need that alias in
+our typescript config. Besides, we need a "@core" alias. More concretely, we
+eslint we should enforce the following:
+ - We have "@domain" alias which refers to "src/domain"
+ - We have "@core" alias which refers to "src/core"
+ - We need to prohibit back imports (eg import { ... } from "../web-ui")
+ - We need to make it such that
+    - from src/web-ui we can only import "@domain"
+    - from src/web-api we can import both “@domain" and “@core"
+    - from src/cli we can import both “@domain" and “@core"
+    - from src/core we can import only “@domain"
+
+To perform this task you need to setup what I described above. Then we should
+have the typical react commands, command to build and start up the web-api and
+some command to build the CLI.
+
+Before starting to implement this explain back to me your task such that we can
+verify your understanding of the problem

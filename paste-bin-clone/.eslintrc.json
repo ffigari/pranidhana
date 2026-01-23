@@ -1,0 +1,105 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2020": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "ignorePatterns": ["dist", ".eslintrc.json"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["react", "@typescript-eslint", "import"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": ["./tsconfig.json", "./tsconfig.base.json", "./tsconfig.api.json", "./tsconfig.cli.json"]
+      }
+    }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": ["../*"]
+      }
+    ],
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          {
+            "target": "./src/web-ui",
+            "from": "./src/core",
+            "message": "web-ui can only import from @domain"
+          },
+          {
+            "target": "./src/web-ui",
+            "from": "./src/web-api",
+            "message": "web-ui cannot import from web-api"
+          },
+          {
+            "target": "./src/web-ui",
+            "from": "./src/cli",
+            "message": "web-ui cannot import from cli"
+          },
+          {
+            "target": "./src/core",
+            "from": "./src/web-ui",
+            "message": "core cannot import from web-ui"
+          },
+          {
+            "target": "./src/core",
+            "from": "./src/web-api",
+            "message": "core cannot import from web-api"
+          },
+          {
+            "target": "./src/core",
+            "from": "./src/cli",
+            "message": "core cannot import from cli"
+          },
+          {
+            "target": "./src/core",
+            "from": "./src/core",
+            "message": "core can only import from @domain"
+          },
+          {
+            "target": "./src/domain",
+            "from": "./src/core",
+            "message": "domain cannot import from core"
+          },
+          {
+            "target": "./src/domain",
+            "from": "./src/web-ui",
+            "message": "domain cannot import from web-ui"
+          },
+          {
+            "target": "./src/domain",
+            "from": "./src/web-api",
+            "message": "domain cannot import from web-api"
+          },
+          {
+            "target": "./src/domain",
+            "from": "./src/cli",
+            "message": "domain cannot import from cli"
+          }
+        ]
+      }
+    ]
+  }
+}
