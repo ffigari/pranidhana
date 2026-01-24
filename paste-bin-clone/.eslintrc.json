@@ -74,11 +74,6 @@
             "message": "core cannot import from cli"
           },
           {
-            "target": "./src/core",
-            "from": "./src/core",
-            "message": "core can only import from @domain"
-          },
-          {
             "target": "./src/domain",
             "from": "./src/core",
             "message": "domain cannot import from core"
@@ -97,6 +92,16 @@
             "target": "./src/domain",
             "from": "./src/cli",
             "message": "domain cannot import from cli"
+          },
+          {
+            "target": "./src/!(bootstrap|cli|web-api)",
+            "from": "./src/persistent-memory",
+            "message": "persistent-memory can only be imported from bootstrap, cli, and web-api"
+          },
+          {
+            "target": "./src/!(cli|web-api)",
+            "from": "./src/bootstrap",
+            "message": "bootstrap can only be imported from cli and web-api"
           }
         ]
       }

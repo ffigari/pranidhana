@@ -18,7 +18,10 @@
     "baseUrl": ".",
     "paths": {
       "@domain/*": ["src/domain/*"],
-      "@core/*": ["src/core/*"]
+      "@core/*": ["src/core/*"],
+      "@bootstrap": ["src/bootstrap/index.ts"],
+      "@persistent-memory": ["src/persistent-memory/index.ts"],
+      "@web-ui/*": ["src/web-ui/*"]
     }
   }
 }

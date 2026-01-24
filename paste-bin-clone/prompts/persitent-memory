@@ -1,0 +1,35 @@
+I want to add persistence to my app. Check `git show HEAD` to understand the
+direction in which I want to go.
+
+Basically the classes inside src/core will define an interface PersistentMemory which
+indicates what they need regarding reading and writing from persistent memory.
+
+At src/persistent-memory/index.ts we will have the implementation of this interface. But
+it will be implicit, no need to use "implement" kewyord or anything like that
+At src/boostrap/index.ts we will have the code that initializes the connection
+to the postgres.
+This separation between implementation and initialization is important, since at
+boostrap we will initialize other things later on. I'm a bit uncertain about how
+to implement the initialization of the connection pool.
+
+At src/persistent-memory/schema.ts we will clarify our schema. We will use Drizzle
+ORM for this. For the moment there should be only be one entries table which
+matches our Entry class at src/domain/entry. The ID will be an UUID
+
+To allow our schema to migrate over time we will need some kind of migrations
+mechanism. Inside src/persistent-memory/migrations.ts there should be a list of
+"migrations", which are little files of DDL commands. Which define how to modify
+the schema. The first element of that array should be the one that creates this
+"entries" table I was mentioning.
+Then the class PersistentMemory should have a "runMigrations" method which runs
+the migrations in order and ensures the DB to which we are connected has the
+latest schema.
+Finally, our CLI will have a run-migrations command. This command will end up
+calling persistentMemory.runMigrations.
+
+Lets also add the following rules to our eslint:
+ - "src/bootstrap" can only be imported from "src/cli" and "src/web-api"
+ - "src/persistent-memory" can only be imported from "src/bootstrap", "src/cli" and "src/web-api"
+
+Before advancing with the actual implementation, rephrase to me what has to be
+achieved, such that I verify your understanding of the problem.

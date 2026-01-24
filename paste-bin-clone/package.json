@@ -11,32 +11,47 @@
     "start:api": "node dist/web-api/index.js",
     "build:cli": "tsup src/cli/index.ts --format esm --outDir dist/cli",
     "cli": "node dist/cli/index.js",
-    "lint": "eslint . --ext ts,tsx"
+    "lint-check": "eslint . --ext ts,tsx",
+    "test": "vitest",
+    "format-check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format-write": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
   },
   "bin": {
     "paste-bin-clone": "./dist/cli/index.js"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
     "express": "^4.18.2",
+    "pg": "^8.17.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@types/express": "^4.17.21",
     "@types/node": "^20.10.5",
+    "@types/pg": "^8.16.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.15.0",
     "@typescript-eslint/parser": "^6.15.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "@vitest/browser": "^4.0.18",
+    "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^8.56.0",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "happy-dom": "^20.3.7",
+    "prettier": "^3.8.1",
     "tsup": "^8.0.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.8"
+    "vite": "^5.0.8",
+    "vitest": "^4.0.18"
   }
 }

@@ -1,0 +1,5 @@
+if submit fails then error is being shown
+
+Failed query: insert into "entries" ("id", "text", "created_at") values (default, $1, default) returning "id" params: qwe 
+
+change this such that error is not exposed
