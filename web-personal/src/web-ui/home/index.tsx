@@ -43,7 +43,9 @@ function Home() {
                     <a href="/resume.pdf" download>
                         resume
                     </a>
-                    ).
+                    ). De a poco estoy armando un{" "}
+                    <a href="/i/portfolio">portfolio</a> para ejemplificar
+                    cositas que puedo armar.
                 </p>
                 <p>
                     Disfruto editar texto en vim, diseñar sistemas alrededor de
