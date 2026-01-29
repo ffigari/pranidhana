@@ -1,0 +1,39 @@
+I have this thing that we are missing some kind of ExtendedAppDTO. It troubles
+me that in one side, in the web-api our GET /apps and the CLI end app calling
+getExtendedApps, which return ExtendedApp (src/core/app-statuses.ts), but then
+in the consumer (web-ui, src/web-ui/api.ts we are parsing a different object).
+This is because the Date timestamp checkedAt is a Date, which has to be
+converted to string to go through the web.
+
+I want this to be explicit. At src/domain/app/index.ts we need to have an
+explicit ExtendedAppDTO composed of other DTO objects. Then in src/core we still
+need to return non-DTO objects, but both the cli UI and the web-api should
+output DTO objects. Then the web-ui should read the DTO object and parse it into
+a non-DTO object.
+
+The DTO objects should be inside src/domain. The DTO objects should be next to
+their original counter part. For parsing and mapping to DTO object we will have
+two functions: parseDTO, mapToDTO. Each of these one will accepts multiple type
+in the input and be recursive. Something like
+
+    type DTOs = ExtendedAppDTO | AppDTO | LocalStatusDTO
+    type NonDTOs = ExtendedApp | App | LocalStatus
+        
+    const parseDTO = (dto: DTOs) NonDTOs {
+        ...
+    }
+
+    const mapToDTO = (nonDTO: NonDTOs) DTOs {
+        ...
+    }
+    
+, which should go under src/domain/dtos.ts. At src/domain/dtos.test.ts we should
+have appropiate tests.
+
+Then in web-api and CLI we will use mapToDTO and in web-ui we will use parseDTO.
+In these cases is ok to use `as` keyword. For example doing
+    mapToDTO(await appStatuses.getExtendedApps(...)) as ExtendedAppDTO[]
+in cli and web-api, or doing
+    parseDTO(/* parse response of GET /apps */) as ExtendedApp[]
+in web-ui
+

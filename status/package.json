@@ -1,0 +1,55 @@
+{
+  "name": "status",
+  "version": "1.0.0",
+  "description": "A status monitoring app with CLI, API, and Web UI",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "build:api": "tsc --project tsconfig.api.json --noEmit && tsup src/web-api/index.ts --format esm --outDir dist/web-api",
+    "start:api": "node dist/web-api/index.js",
+    "build:cli": "tsc --project tsconfig.cli.json --noEmit && tsup src/cli/index.ts --format esm --outDir dist/cli",
+    "cli": "node dist/cli/index.js",
+    "sync-instance": "npm run build:cli && node dist/cli/index.js sync-instance",
+    "lint-check": "eslint . --ext ts,tsx",
+    "test": "vitest",
+    "format-check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format-write": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
+  },
+  "bin": {
+    "status": "./dist/cli/index.js"
+  },
+  "dependencies": {
+    "dockerode": "^4.0.9",
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
+    "express": "^5.2.1",
+    "pg": "^8.17.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-router-dom": "^7.13.0"
+  },
+  "devDependencies": {
+    "@types/dockerode": "^4.0.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.1.0",
+    "@types/pg": "^8.16.0",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "esbuild-plugin-alias": "^0.2.1",
+    "eslint": "^9.39.2",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.8.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vitest": "^4.0.18"
+  }
+}

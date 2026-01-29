@@ -1,0 +1,461 @@
+I want to build a status monitoring web app that tracks the health of my other applications. This app will have three different interfaces:
+- a CLI with which you can interact directly with the instance when logged in the same server
+- an API with which you can interact remotely (eg through curl)
+- a user friendly React app
+
+We will implement this using TypeScript.
+
+These three interfaces will share code. To begin with, we will have one domain entity:
+    interface AppStatus {
+        id: AppStatusID;
+        name: string;
+        ok: boolean;
+        checkedAt: Date;
+    }
+
+We need the following modular structure:
+    - src/domain       -> contains domain models (AppStatus interface)
+    - src/core         -> shared business logic
+    - src/cli          -> CLI specific code
+    - src/web-api      -> REST API server code
+    - src/web-ui       -> React SPA code
+    - src/bootstrap    -> initialization code (will be used later for database connection)
+    - src/persistent-memory -> database layer implementation (only migrations for now, will use Drizzle ORM later)
+
+## React Web UI
+
+The React app will be very simple. For the moment it should have one route:
+ - /  -> the home of the app; will fetch and display all app statuses via GET /api/app-statuses
+
+Note that this is an SPA, so we need react-router-dom for routing.
+
+The home page should:
+- Make a GET request to /api/app-statuses on mount
+- Display a list of all app statuses showing: name, ok status (boolean), and checkedAt timestamp
+- Use Bootstrap for basic styling (include from CDN in index.html)
+
+## Web API
+
+The WEB-API will have one single endpoint:
+- GET /api/app-statuses -> returns all app statuses (hardcoded data for now)
+
+The API should:
+- Use Express
+- Serve the React build as static files in production
+- Handle 404 responses appropriately
+- Use the bootstrap module to initialize dependencies (even though we're using hardcoded data for now)
+- Include a catch-all route for client-side routing
+
+## CLI
+
+The CLI will be called like this:
+    `status get app-statuses`
+    `status run-migrations`
+
+The CLI should:
+- Accept commands via process.argv
+- Use the bootstrap module to initialize dependencies
+- Output JSON for get operations
+- Have a proper shebang (#!/usr/bin/env node) at the top
+
+## Core Business Logic
+
+At src/core/app-statuses.ts we will have:
+
+    import { AppStatus } from "@domain/app-status"
+
+    interface PersistentMemory {
+        // Empty for now - will add database methods later
+    }
+
+    export class AppStatuses {
+        constructor(public _persistentMemory: PersistentMemory) {}
+
+        async getAll(): Promise<AppStatus[]> {
+            // Hardcoded data - not using persistentMemory yet
+            return [
+                {
+                    id: "1",
+                    name: "personal-website",
+                    ok: true,
+                    checkedAt: new Date(),
+                },
+                {
+                    id: "2",
+                    name: "bin-paste",
+                    ok: true,
+                    checkedAt: new Date(),
+                }
+            ];
+        }
+    }
+
+The core layer defines the PersistentMemory interface (empty for now) that describes what it needs from the database layer. For now, the getAll method returns hardcoded data directly without using persistent storage.
+
+## Domain Layer
+
+At src/domain/app-status.ts we will have:
+
+    import { ID } from "@domain";
+
+    export type AppStatusID = ID;
+
+    export interface AppStatus {
+        id: AppStatusID;
+        name: string;
+        ok: boolean;
+        checkedAt: Date;
+    }
+
+At src/domain/index.ts:
+    export type ID = string;
+
+## Persistent Memory Layer
+
+At src/persistent-memory/index.ts we will only have migration-related functionality for now:
+
+    import { Pool } from "pg";
+    import { migrations } from "./migrations";
+
+    export class PersistentMemory {
+        constructor(private pool: Pool) {}
+
+        async runMigrations(): Promise<void> {
+            // Create migrations tracking table if it doesn't exist
+            await this.pool.query(`
+                CREATE TABLE IF NOT EXISTS _migrations (
+                    name TEXT PRIMARY KEY,
+                    applied_at TIMESTAMP NOT NULL DEFAULT NOW()
+                );
+            `);
+
+            // Get list of already applied migrations
+            const appliedResult = await this.pool.query<{ name: string }>(
+                "SELECT name FROM _migrations ORDER BY name"
+            );
+            const appliedMigrations = new Set(appliedResult.rows.map((row) => row.name));
+
+            // Run pending migrations in order
+            for (const migration of migrations) {
+                if (!appliedMigrations.has(migration.name)) {
+                    console.log(`Running migration: ${migration.name}`);
+                    await this.pool.query(migration.sql);
+                    await this.pool.query("INSERT INTO _migrations (name) VALUES ($1)", [migration.name]);
+                    console.log(`Completed migration: ${migration.name}`);
+                }
+            }
+
+            console.log("All migrations completed");
+        }
+    }
+
+At src/persistent-memory/schema.ts (using Drizzle ORM - empty for now, but we'll use it later):
+
+    import { pgTable, uuid, text, boolean, timestamp } from "drizzle-orm/pg-core";
+
+    export const appStatuses = pgTable("app_statuses", {
+        id: uuid("id").primaryKey().defaultRandom(),
+        name: text("name").notNull(),
+        ok: boolean("ok").notNull(),
+        checkedAt: timestamp("checked_at").notNull().defaultNow(),
+    });
+
+At src/persistent-memory/migrations.ts (only one migration for now to enable pgcrypto):
+
+    export interface Migration {
+        name: string;
+        sql: string;
+    }
+
+    export const migrations: Migration[] = [
+        {
+            name: "000_enable_pgcrypto",
+            sql: `CREATE EXTENSION IF NOT EXISTS "pgcrypto";`,
+        },
+    ];
+
+## Bootstrap Layer
+
+At src/bootstrap/index.ts we will initialize the database connection and wire up dependencies:
+
+    import { PersistentMemory } from "@persistent-memory";
+    import { AppStatuses } from "@core/app-statuses";
+    import { Pool } from "pg";
+    import { config } from "dotenv";
+    import { existsSync } from "fs";
+    import { resolve } from "path";
+
+    const loadEnvVariables = (): void => {
+        const envPath = resolve(process.cwd(), ".env");
+        if (!existsSync(envPath)) {
+            throw new Error(
+                `.env file not found at ${envPath}. Please create a .env file with the required environment variables.`
+            );
+        }
+        config();
+    };
+
+    const validateRequiredEnvVars = (): void => {
+        const requiredVars = ["PGHOST", "PGPORT", "PGDATABASE", "PGUSER", "PGPASSWORD"];
+        const missingVars = requiredVars.filter((varName) => process.env[varName] === undefined);
+        if (missingVars.length > 0) {
+            throw new Error(
+                `Missing required environment variables: ${missingVars.join(", ")}. Please check your .env file.`
+            );
+        }
+    };
+
+    const initializePersistentMemory = (): PersistentMemory => {
+        loadEnvVariables();
+        validateRequiredEnvVars();
+
+        const pool = new Pool({
+            host: process.env.PGHOST,
+            port: parseInt(process.env.PGPORT!),
+            database: process.env.PGDATABASE,
+            user: process.env.PGUSER,
+            password: process.env.PGPASSWORD,
+        });
+
+        return new PersistentMemory(pool);
+    };
+
+    export const bootstrap = async (): Promise<{
+        persistentMemory: PersistentMemory;
+        appStatuses: AppStatuses;
+    }> => {
+        const persistentMemory = initializePersistentMemory();
+        return {
+            persistentMemory,
+            appStatuses: new AppStatuses(persistentMemory),
+        };
+    };
+
+## TypeScript Configuration
+
+We need to set up strict module boundaries using path aliases and ESLint rules.
+
+### Path Aliases
+
+In tsconfig.base.json we need:
+    {
+      "compilerOptions": {
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": ["ES2020"],
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "baseUrl": ".",
+        "paths": {
+          "@domain/*": ["src/domain/*"],
+          "@domain": ["src/domain/index.ts"],
+          "@core/*": ["src/core/*"],
+          "@bootstrap": ["src/bootstrap/index.ts"],
+          "@persistent-memory": ["src/persistent-memory/index.ts"],
+          "@web-ui/*": ["src/web-ui/*"]
+        }
+      }
+    }
+
+We also need separate tsconfig files:
+- tsconfig.json (for web-ui, extends tsconfig.base.json, includes DOM libs and JSX)
+- tsconfig.api.json (for web-api)
+- tsconfig.cli.json (for cli)
+- tsconfig.node.json (for build tools)
+
+### ESLint Module Boundary Rules
+
+In .eslintrc.json we need to enforce the following import restrictions:
+ - We have "@domain" alias which refers to "src/domain"
+ - We have "@core" alias which refers to "src/core"
+ - We have "@bootstrap" alias which refers to "src/bootstrap/index.ts"
+ - We have "@persistent-memory" alias which refers to "src/persistent-memory/index.ts"
+ - We prohibit relative back imports (eg import { ... } from "../web-ui")
+ - Module boundary rules:
+    - src/web-ui can ONLY import from @domain
+    - src/web-api can import @domain, @core, @bootstrap
+    - src/cli can import @domain, @core, @bootstrap
+    - src/core can ONLY import from @domain
+    - src/domain can import from NOTHING (no other modules)
+    - src/bootstrap can import @domain, @core, @persistent-memory
+    - src/persistent-memory can import @domain
+
+Use eslint-plugin-import with "import/no-restricted-paths" rule to enforce these zones.
+
+## Build Configuration
+
+### package.json scripts
+
+    {
+      "name": "status",
+      "version": "1.0.0",
+      "description": "A status monitoring app with CLI, API, and Web UI",
+      "type": "module",
+      "scripts": {
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "preview": "vite preview",
+        "build:api": "tsup src/web-api/index.ts --format esm --outDir dist/web-api",
+        "start:api": "node dist/web-api/index.js",
+        "build:cli": "tsup src/cli/index.ts --format esm --outDir dist/cli",
+        "cli": "node dist/cli/index.js",
+        "lint-check": "eslint . --ext ts,tsx",
+        "test": "vitest",
+        "format-check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+        "format-write": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\""
+      },
+      "bin": {
+        "status": "./dist/cli/index.js"
+      }
+    }
+
+### Dependencies
+
+Install these dependencies:
+- react, react-dom, react-router-dom
+- express
+- pg, drizzle-orm
+- dotenv
+
+Dev dependencies:
+- typescript
+- @types/node, @types/react, @types/react-dom, @types/express, @types/pg
+- vite, @vitejs/plugin-react
+- tsup (for building CLI and API)
+- esbuild-plugin-alias (for path aliases in tsup)
+- eslint, @typescript-eslint/eslint-plugin, @typescript-eslint/parser
+- eslint-plugin-react, eslint-plugin-react-hooks, eslint-plugin-import
+- eslint-import-resolver-typescript
+- prettier
+- vitest (for testing)
+
+### tsup.config.ts
+
+Use tsup for building CLI and API with path alias resolution:
+
+    import { defineConfig } from "tsup";
+    import path from "path";
+    import aliasPlugin from "esbuild-plugin-alias";
+
+    export default defineConfig({
+      clean: true,
+      dts: false,
+      format: ["esm"],
+      sourcemap: false,
+      target: "es2020",
+      tsconfig: "tsconfig.base.json",
+      esbuildPlugins: [
+        aliasPlugin({
+          "@domain": path.resolve(__dirname, "src/domain"),
+          "@core": path.resolve(__dirname, "src/core"),
+          "@bootstrap": path.resolve(__dirname, "src/bootstrap/index.ts"),
+          "@persistent-memory": path.resolve(__dirname, "src/persistent-memory/index.ts"),
+        }),
+      ],
+    });
+
+### vite.config.ts
+
+    import { defineConfig } from "vite";
+    import react from "@vitejs/plugin-react";
+    import path from "path";
+
+    export default defineConfig({
+      plugins: [react()],
+      resolve: {
+        alias: {
+          "@domain": path.resolve(__dirname, "./src/domain"),
+          "@core": path.resolve(__dirname, "./src/core"),
+        },
+      },
+      server: {
+        proxy: {
+          "/api": {
+            target: "http://localhost:3000",
+            changeOrigin: true,
+          },
+        },
+      },
+    });
+
+### index.html
+
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Status Monitor</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+      </head>
+      <body>
+        <div id="root"></div>
+        <script type="module" src="/src/web-ui/main.tsx"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+      </body>
+    </html>
+
+## .gitignore
+
+    # Dependencies
+    node_modules/
+
+    # Build output
+    dist/
+
+    # Environment variables
+    .env
+    .env.local
+    .env.production
+
+    # Logs
+    logs
+    *.log
+    npm-debug.log*
+
+    # Editor directories and files
+    .vscode/*
+    !.vscode/extensions.json
+    .idea
+    .DS_Store
+    *.suo
+    *.ntvs*
+    *.njsproj
+    *.sln
+    *.sw?
+
+    # Vite
+    .vite
+
+## Implementation Notes
+
+1. The src/web-ui/api.ts file should contain an API class with a method for fetching all app statuses
+2. The React app main.tsx should render the App component into the #root div
+3. The CLI should handle errors gracefully and return appropriate exit codes (0 for success, 1 for failure)
+4. Use async/await throughout for all operations
+5. The web-api should call bootstrap() once on startup and reuse the instances
+6. Environment variables should be loaded from a .env file with these keys:
+   - PGHOST
+   - PGPORT
+   - PGDATABASE
+   - PGUSER
+   - PGPASSWORD
+7. For now, the AppStatuses.getAll() method returns hardcoded data directly (two apps: "personal-website" and "bin-paste", both with ok: true) - this is NOT using the persistent memory layer yet
+8. The PersistentMemory class only has migrations functionality for now - no data retrieval methods
+9. The schema is in place for future use, but we're using hardcoded data in the core layer for now
+
+## Task Summary
+
+Before starting implementation, please explain back to me:
+1. The modular architecture and what each module can import
+2. The three interfaces (CLI, Web API, Web UI) and their responsibilities
+3. How the persistence layer is separated from the core business logic
+4. The migration mechanism and how it tracks applied migrations
+5. The build setup for each component (web-ui uses Vite, api/cli use tsup)
+6. That we're using hardcoded data in the core layer (not in persistent-memory), with two apps: personal-website and bin-paste, both ok: true

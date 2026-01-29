@@ -1,0 +1,27 @@
+this is very error prone. I thought we would be able to use something like
+typeOf input == ExtendedAppDTO then we know it is that. But we can not do that
+because we are using interfaces. So lets have explicit functions like
+    parseExtendedAppDTO(dto: ExtendedAppDTO): ExtendedApp
+and since we are making this change, instead of having 
+    mapToExtendedAppDTO(extendedApp: ExtendedApp): ExtendedAppDTO
+lets have a method
+    extendedApp.toDTO(): ExtendedAppDTO
+
+This imply of course that our domain models have now to be classes instead of
+interfaces. So lets do that. Lets make it such that ExtendedApp, App and
+LocalStatus are classes instead of interface. Lets keep the interface for the
+DTOs only
+
+Lets keep in mind that DTOs are used for transfer over the web only. At
+src/web-ui/api.ts we must parse the DTOs, but then regular instances of these
+clases we are incorporating should be returned. Similarly, at
+src/core/app-statuses.ts we should keep returning these non dto instaces of
+these clases.
+
+
+Extra thing, but lets rename src/core/app-statuses.ts to src/core/apps.ts and
+rename
+    export class AppStatuses {
+to
+    export class Apps {
+

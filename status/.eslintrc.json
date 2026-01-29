@@ -1,0 +1,75 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["@typescript-eslint", "react", "react-hooks", "import"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+          {
+            "target": "./src/web-ui",
+            "from": "./src",
+            "except": ["./domain"]
+          },
+          {
+            "target": "./src/web-api",
+            "from": "./src",
+            "except": ["./domain", "./core", "./bootstrap"]
+          },
+          {
+            "target": "./src/cli",
+            "from": "./src",
+            "except": ["./domain", "./core", "./bootstrap"]
+          },
+          {
+            "target": "./src/core",
+            "from": "./src",
+            "except": ["./domain"]
+          },
+          {
+            "target": "./src/domain",
+            "from": "./src",
+            "except": ["./domain"]
+          },
+          {
+            "target": "./src/bootstrap",
+            "from": "./src",
+            "except": ["./domain", "./core", "./persistent-memory"]
+          },
+          {
+            "target": "./src/persistent-memory",
+            "from": "./src",
+            "except": ["./domain"]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+
+Ok looks good but lets make a few corrections and output the file again (I moved
+the one you wrote). I will cite some pieces of the text file you generated with
+clarifications below each cite.
+
+
+> The React app will be very simple. For the moment it should have two routes:
+>  - /  -> the home of the app; will fetch and display all app statuses via GET /api/app-statuses
+>  - /app-statuses/{id}  -> will display one single app status via GET /api/app-statuses/{id}
+
+we only need the / for the moment, the /app-statuses/{id} is not needed.
+
+
+> The WEB-API will have the following endpoints:
+> - GET /api/app-statuses      -> returns all app statuses
+> - GET /api/app-statuses/:id  -> returns a specific app status by ID
+> - POST /api/app-statuses     -> creates a new app status (accepts JSON body)
+
+We only need the GET /api/app-statuses endpoint. The other two are not needed 
+
+> The CLI will be called like this:
+>     `status get app-status {id}`
+>     `status create app-status < data.json`
+>     `status run-migrations`
+
+We should have only two commmands:
+ - status get app-statuses -> return all apps statuses
+ - status run-migrations -> the one you added
+the other two are not needed
+
+I will stop citing now because I see the general correction we are making. For
+the moment the app-statuses will be hardcoded. We will add the code for
+"persisent storage" module, and we will have the persistent storage interface in
+the "core" module, but those two will be empty. For the moment the "core" module
+will expose one single "getAppStatuses" which returns an array of our entities,
+but it will be hardcoded data for the moment. I'll focus on building the real
+data later on, but for the moment lets make it such that we have two apps:
+personal-website and bin-paste. And lets hardcode to make it such that they are
+ok.
+
+So, we dont need either the 001_create_app_statuses_table migration, only the
+000_enable_pgcrypto one is enough
+
+The rest looks ok. Remember, your current task is to build a prompt that will be
+consumed by another instance of claude code. Try again, by writing back to
+../status/prompts/init

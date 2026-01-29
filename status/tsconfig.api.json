@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "outDir": "./dist/web-api"
+  },
+  "include": ["src/web-api", "src/core", "src/domain", "src/bootstrap", "src/persistent-memory"]
+}

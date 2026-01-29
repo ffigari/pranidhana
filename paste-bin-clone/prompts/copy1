@@ -1,0 +1,34 @@
+
+I inited this project's architecture using claude-code. Please read the prompts
+which are stored at prompts/init and at prompts/persitent-memory. I want to
+replicate this same architecture. I want to take a look at those two prompts,
+take a look at all the code inside this repo and give me a prompt to initiliaze
+another app.
+This other app is a "status app". Basically, it will be an app to which I can go
+to check the status of my other apps. For the moment I have two apps only. My
+personal website and this repo here you are looking at which is paste bin clone.
+For the moment we will handle one single entity. This one will be 
+
+interface AppStatus {
+    ok: boolean;
+}
+
+which will go under "src/domain" inside the "status" directory (make an "ls ../"
+to check the upper scope).
+
+The idea is that the home of this status app will make a "GET /app-statuses"
+request to get the retrieve an AppStatus[].
+I should also be able to run a "get app-statuses" command similarly to how I do
+it in this repo to get an entry by id
+
+But that's the general idea. What I want you to do is build a prompt I will then
+pass to another instance of claude-code. You should store the prompt in
+"status/prompts/init" ("status" dir is in the above dir). To build this prompt
+you need to combine these two prompts I mentioned above with what you can see
+inside this repo. I want to replicate all the structure you will find here, but
+in particular the modules structure (including the linting rule to restricts
+imports). Thats having these modules domain, core, web-ui, web-api, cli,
+boostrap, persistent-storage. For the moment we only have this AppStatus entity
+I mentioned above, but that should determine the rest of the code. You have to
+describe all in detail such that then I can easily boostrap this other app
+easily
