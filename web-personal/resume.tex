@@ -1,0 +1,101 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{datetime}
+\usepackage{hyperref}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+
+\newdateformat{monthyeardate}{\monthname[\THEMONTH] of \THEYEAR}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+Francisco Figari - Buenos Aires based computer scientist
+
+\textit{Resume} - \monthyeardate\today
+
+\begin{itemize}
+
+  \item Technical Manager
+  \begin{itemize}
+    \item Ability to simultaneously articulate technical and product needs into a coherent vision without losing the specificity of each domain.
+    \item Capable of coordinating with clients to understand real needs and plan meaningful backlog which prioritizes outcomes.
+    \item Ability to understand capacity, needs and blockers of development team. Ability to build collaboration between team members.
+    \item Ability to steer product towards a direction which encompasses both client and internal expectations.
+    \item Skilled in planning development projects and breaking them down into small, deployable steps that prioritize delivery.
+    \item Capable of conducting discovery phases to assess the feasibility of new feature implementations.
+    \item Experienced interdisciplinary collaborator: worked with urban planners, architects, neuroscientists, researchers, as well as frontend and backend developers.
+    \item Leadership experience managing small development teams (2 to 3 developers).
+    \item Familiar with agile methodologies such as Kanban and Scrum.
+    \item Native Spanish speaker with advanced French (schooling) and advanced English (work).
+  \end{itemize}
+
+  \item Builder
+  \begin{itemize}
+    \item Ability to approach open-ended problems and create practical implementations.
+    \begin{itemize}
+      \item Development of investment related features like CEDEARs, argentinian stocks and time deposits.
+      \item Research and development done in the context of neuro-science regarding the feasibility of web-based \texttt{eye-tracking} applied to remote clinical trials.
+      \item Knowledgeable in urban planning topics. Development of a procedural generator for affordable multi-family housing adhering to strict urban planning codes. Development of real estate and housing simulation.
+    \end{itemize}
+    \item Capable of working within medium-scale microservice (\texttt{ms}) ecosystems.
+    \begin{itemize}
+      \item Maintenance and integration of new \texttt{ms} into the network, both consumers and producers.
+      \item Implementation of new features spanning multiple \texttt{ms}.
+      \item General knowledge of tracing and monitoring tools (e.g., \texttt{Datadog}).
+      \item Scope: 10 services, with the largest handling 200 requests per second during market hours.
+    \end{itemize}
+    \item Skilled in translating problems described in natural language into formal representations.
+    \item Ability to scale codebases, perform refactoring, and decompose complex function flows into smaller, manageable subflows.
+    \item General understanding of multiple programming paradigms: object-oriented, procedural, functional, and event-oriented.
+    \item Professional experience with multiple programming languages: \texttt{Typescript}, \texttt{Golang}, \texttt{Python}, \texttt{C++}.
+    \item Designs with computational complexity in mind (Big-\texttt{O} notation).
+    \item Capable of presenting ideas clearly and concisely, following formats similar to scientific papers.
+    \item Skilled in defining interfaces that involve multiple technologies (e.g., backend-to-mobile communication).
+    \item Capable of designing software flows based on HTTP resources.
+    \item General knowledge of data persistence technologies (\texttt{PostgreSQL}, \texttt{Redis}).
+    \item Conscious and effective use of \texttt{git} in development workflows.
+    \item General understanding of \texttt{Unix} systems.
+    \item Effective usage of AI agents (e.g. \texttt{claude-code}) to accelerate development processes.
+  \end{itemize}
+
+  \item Mentor
+  \begin{itemize}
+    \item Capable of reviewing coworkers work with attention to quality of the proposed solution.
+    \item Capable of tracking junior developers’ progress over time in order to guide them and teach better development practices.
+    \item Ability to teach numerical methods. Experienced in evaluating practical assignments with emphasis on clarity of idea presentation.
+  \end{itemize}
+
+% Separator line
+\vspace{1em}
+\noindent\rule{\linewidth}{0.4pt}
+\vspace{1em}
+
+% Work History section
+\item Work History
+\begin{itemize}
+  \item Senior software engineer @ \textit{Urbanly} since August 2025.
+  \item L4 backend engineer @ \textit{Brubank} from January 2025 to August 2025.
+  \item L3 backend engineer @ \textit{Brubank} from Apr 2023 to January 2025.
+  \item Research intern @ \textit{DC, FCEyN, UBA} between August 2021 and September 2022 under scholarship program for
+    initiation in research. Work done around thesis project.
+  \item Fullstack programmer @ \textit{DubbingDigital} between March 2021 y December 2021.
+  \item Lead programmer @ \textit{UrbanSim} between July 2018 y November 2020.
+  \item Research intern @ \textit{ARSLab, Carleton University} between February and June of 2018.
+  \item Teaching assistant in the Numerical Methods course @ \textit{DC, FCEyN, UBA}, 4 semesters between 2016 y 2018.
+  \item Freelance programmer @ \textit{LIAA, FCEyN, UBA} at the end of 2017.
+  \item Junior programmer @ \textit{Eryx} during 4 months at the beginning of 2016.
+\end{itemize}
+
+% Education section
+\item Education and Training
+\begin{itemize}
+    \item Product Discovery for Agile Teams @ \textit{Sense and Respond Learning}; 8 hours, intro to \textit{Lean Product Canvas}
+    \item Yoga teaching training program @ \textit{Red Prisma} between July 2023 and April 2025. 18 intensive weekends plus weekly theoretical classes.
+    \item \textit{Licenciatura} in Computer Science @ \textit{DC, FCEyN, UBA}, equivalent to Bachelor + Master with thesis, started in 2013 and finished in 2022.
+    \item High school @ \textit{Licée Jean Mermoz, Buenos Aires}, finished in 2013.
+\end{itemize}
+
+\end{itemize}
+\end{document}
