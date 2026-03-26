@@ -1,4 +1,4 @@
-import { docker } from "./";
+import { docker, ImageName } from "./";
 
 import { ContainerName } from "@domain/docker"
 import { errorMessage } from "@domain/errors"
@@ -44,5 +44,10 @@ export class Container {
     } catch (err) {
       throw new Error(`Failed to start container '${this.name}': ${errorMessage(err)}`);
     }
+  }
+
+  isDeployedWith(_imageName: ImageName): boolean {
+    throw new Error("not implemented")
+    return false
   }
 }

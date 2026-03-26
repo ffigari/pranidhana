@@ -1,5 +1,7 @@
 import Docker from "dockerode";
 
+export type ImageName = string
+
 export const docker = new (class {
   public sdk: Docker;
 

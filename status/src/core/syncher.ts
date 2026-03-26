@@ -1,6 +1,8 @@
-import { docker } from "./docker";
+import { existsSync } from "node:fs";
+import { ImageName, docker } from "./docker";
 import { canSyncInstance } from "./permission";
 import { postgres } from "@core/postgres";
+import { git } from "@core/git"
 import { apps } from "@core/apps";
 import { errorMessage } from "@domain/errors";
 
@@ -22,18 +24,26 @@ export const syncher = new (class Syncher {
     await this.ensurePostgresIsAvailable()
 
     for (const app of apps) {
-      if (!await app.container.exists()) {
-        throw new Error(`${app.name} container does not exist`);
+      const path = `../${app.name}`
+      if (!existsSync(path)) {
+        throw new Error(`${app.name} was not found at ${path}`)
+      }
+
+      const revision = await git.revParse(`HEAD:${path}`)
+      const versionedImageName: ImageName = `${app.name}:${revision}`
+
+      const needsRedeploy = !(await app.container.exists()) || !app.container.isDeployedWith(versionedImageName)
+      if (needsRedeploy) {
+        this.ensureImageIsAvailable(versionedImageName)
+        this.deployImage(versionedImageName)
       }
 
       if (!(await app.container.isUp())) {
-        throw new Error(`${app.name}'s container is not up`);
+        throw new Error(`${app.name}'s container is not up but should be at this point`);
       }
-
-      console.log("TODO: Check app's hash commit agains current to see if different, build image if needed and deploy")
     }
 
-    console.log("TODO: check DBs are in same docker network");
+    console.log("TODO: check ");
 
     console.log("TODO: check DBs are in same docker network");
 
@@ -41,6 +51,14 @@ export const syncher = new (class Syncher {
 
     console.log("synched ok :)");
     return true;
+  }
+
+  private ensureImageIsAvailable(_imageName: ImageName): void {
+    throw new Error("not impemented")
+  }
+
+  private deployImage(_imageName: ImageName): void {
+    throw new Error("not impemented")
   }
 
   private async ensurePostgresIsAvailable(): Promise<void> {
