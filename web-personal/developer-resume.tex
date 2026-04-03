@@ -23,144 +23,112 @@
 
 \section*{Professional Summary}
 
-% The TPO summary emphasizes bridging product and tech. For a developer resume,
-% the summary should foreground your hands-on building experience.
-% Questions to answer here:
-% - What kind of systems have you built? (microservices, web apps, simulations, etc.)
-% - What is your strongest technical identity? (backend dev? systems thinker? polyglot?)
-% - What sets you apart from other developers with similar years of experience?
-% - How does your cross-domain experience (fintech, urbanism, neuroscience) make
-%   you a better developer specifically? (e.g., tackling novel problem domains)
-With ~9 years of experience in the software industry, I continuously deliver
-implementations accross different domains and teams of different structure.
+With ~9 years of experience in the software industry, I build software that
+balances stakeholders' needs with technical quality. Experienced in multiple
+programming languages, I easily adapt to new codebases. Having worked across
+diverse domains (fintech, urbanism, neuroscience) and team structures, I bring a
+domain-independent approach to building software that adapts to each project's
+specific needs.
 
 \section*{Relevant Experience}
 
 \textbf{Technical Leader @ Urbanly} \hfill August 2025 -- present
 \begin{itemize}
-% In the TPO resume this role is product-focused. For a developer resume,
-% highlight what you actually built and the technical decisions you made.
-% - What tech stack did you use for the housing simulation PoC?
-% - What was the architecture? (monolith, modular, etc.)
-% - Were there interesting algorithmic challenges in the simulation?
-% - Did you set up CI/CD, testing infrastructure, or dev tooling for the team?
-% - What development practices did you introduce and how did they concretely
-%   improve the codebase? (e.g., reduced bugs, faster onboarding)
-% - Any performance work? Data modeling decisions?
-  \item ...
+  \item Built real estate housing market simulation prototype within three
+    months of joining. Applied SOLID principles to build core components
+    which were then developed by the rest of the team. Designed system to
+    incorporate both CEO and external client requirements. Built with
+    \texttt{TypeScript} and \texttt{Web Workers}, leveraging geospatial
+    algorithms (oriented bounding box) and formats (\texttt{GeoJSON}).
+  \item Refactored project structure to allow reuse of code in both browser and
+    CLI versions of the system. Introduced unit testing across standalone
+    modules of the project.
+  \item Continuously deployed prototype for client assessment. Worked side by
+    side with clients to define requirements. Travelled overseas to meet in
+    person with clients, present progress, design specifications, and plan
+    improvements.
+  \item Generated multiple \texttt{HTML} reports to showcase improvements of the
+    simulation. Used dataframes and \texttt{PlotlyJS} to standardize analysis of
+    simulations' results.
+  \item Mentored 4 junior developers into adopting better development practices.
+    Reviewed their work by giving constructive feedback.
 \end{itemize}
 
 \textbf{Backend Developer @ Brubank} \hfill April 2023 -- August 2025
 \begin{itemize}
-% This is probably your strongest section for a developer resume. The TPO version
-% mentions microservices and features but stays high-level. Go deeper here.
-%
-% Microservices ecosystem:
-% - How many services did you personally own or contribute to?
-% - What was the tech stack? (Golang? Node/TS? What message broker? What DB?)
-% - Did you extract services from the monolith? What was the migration strategy?
-% - What scale did your services handle? (the old resume mentions 200 rps --
-%   expand on this: peak loads, latency targets, etc.)
-%
-% Feature development (CEDEARs, stocks, time deposits):
-% - What was technically challenging about these features?
-% - Did you integrate with external APIs (e.g., market data providers, brokers)?
-%   What were the reliability/consistency challenges?
-% - How did you handle things like idempotency, retries, eventual consistency?
-%
-% System quality:
-% - How did you use Datadog? Did you set up dashboards, alerts, SLOs?
-% - Did you do any performance optimization work?
-% - What was your testing strategy? Integration tests? Contract tests?
-%
-% Interface design:
-% - You mention defining mobile-to-backend interfaces. Can you describe a
-%   specific API you designed and why the design was good?
-%
-% Other:
-% - Did you do code reviews? What did you focus on?
-% - Any incident response or debugging war stories?
-% - Did you use feature flags for gradual rollouts? How was that implemented?
-  \item ...
+  \item Developed within a ~30-service microservices ecosystem (our team was in
+    charge of ~8 of them; ~200 requests per second in the biggest one). Set up
+    both new web APIs and new \texttt{Azure Service Buses} using company's
+    infrastructure. Used \texttt{Golang}.
+  \item Extracted logic out of foundational monolithic service. Worked with
+    external providers' APIs.
+  \item Used monitoring tooling (\texttt{Datadog}) to validate no errors occurred with
+    newly deployed features. Coordinated multi-service deployments to ensure
+    inter-service dependencies were kept up and running at all times. Applied
+    feature flags and feature rollouts to achieve controlled deployments.
+  \item Built new investment features like CEDEARs buying and selling.
+    Maintained existing ones like time deposits. Assessed feasibility of
+    Argentinian bonds features by testing provider's API and our existing
+    implementation, which resulted in a product document used by a junior
+    developer to build the feature while I mentored him.
+  \item Defined \texttt{GraphQL} interfaces used between backend and mobile team.
+    Coordinated building of RFC documents with whole team (mobile + QA +
+    backend). Ensured backward compatibility across all developments,
+    particularly for older mobile versions.
 \end{itemize}
 
 \textbf{Research Intern @ LIAA, DC, FCEyN, UBA} \hfill August 2021 -- September 2022
 \begin{itemize}
-% The TPO version is fine here but doesn't mention what you built.
-% - What was the tech stack for the web eye tracker? (JS? WebGL? What browser APIs?)
-% - What were the main technical challenges? (real-time performance in browser?
-%   calibration algorithms? signal processing?)
-% - Did you benchmark your implementation against existing tools? What were the results?
-% - Was there any data pipeline work (collecting, storing, analyzing eye tracking data)?
-  \item ...
+  \item Worked with neuroscientist to build web browser eye tracker aimed to
+    allow remote clinical studies. Built using \texttt{JavaScript} and event-based
+    programming. Used \texttt{JavaScript} libraries (\texttt{jsPsych},
+    \texttt{WebGazer}) from the neuroscience ecosystem. Reviewed related
+    scientific literature.
+  \item Adapted implementation for consumer-grade webcams, integrating
+    calibration routines to compensate for the lack of head stabilization in
+    remote settings, unlike controlled lab environments. Validated accuracy
+    by replicating the known neuroscience ``antisaccades'' task and running a
+    remote study with 20 participants. Collected and studied data using
+    \texttt{Python} and \texttt{Pandas}.
 \end{itemize}
 
 \textbf{Lead Programmer @ UrbanSim} \hfill July 2018 -- November 2020
 \begin{itemize}
-% The procedural generator is a strong developer story. Expand on it.
-% - What language/framework? (C++? Python? Web-based?)
-% - What was the algorithm behind the procedural generation?
-% - How did you encode urban planning constraints formally?
-% - What was the web platform's stack?
-% - Any interesting geometry/computational geometry work?
-% - How did you handle the complexity of the constraint system as it grew?
-  \item ...
+  \item Worked with urbanists to develop multi-family affordable housing
+    procedural generator in \texttt{C++}. Implemented different heuristics (e.g., greedy
+    search, brute force) to maximize dwelling-unit count while ensuring urban
+    planning constraints were satisfied. Continuously refactored and extended
+    codebase to account for a growing set of constraints.
+  \item Extended surrounding web platform alongside other developers by using
+    \texttt{Python} in the backend and \texttt{JavaScript} in the frontend.
+    Developed geospatial visualizations of the procedural generator's results.
 \end{itemize}
 
-% Should any of these older roles appear?
-% - DubbingDigital (fullstack): What did you build? What stack?
-% - Carleton University (research intern): What did you work on technically?
-% - Eryx (junior programmer): Relevant if it shows breadth, but maybe too old.
-% - Teaching assistant: Could be left for Education, or dropped.
-% Think about which ones add signal for a developer role vs. just adding length.
+\section*{Skills}
 
-\section*{Key Competencies}
+\textbf{Languages \& Frameworks:} \texttt{Golang}, \texttt{TypeScript},
+\texttt{Python}, \texttt{C++}, \texttt{NodeJS}, \texttt{React}, \texttt{Pandas}
+\\
 
-\subsection*{Software Architecture \& Design}
-\begin{itemize}
-% This replaces "Product & Delivery". Focus on how you think about building software.
-% - How do you approach breaking down a system into components/services?
-% - How do you think about API design? What principles guide you?
-% - How do you handle growing codebases? (refactoring strategies, decomposition)
-% - How do you think about data modeling and persistence choices?
-% - Do you have experience with event-driven architectures, message queues, etc.?
-  \item ...
-\end{itemize}
+\textbf{Infrastructure:} microservices, \texttt{Azure Service Bus},
+\texttt{REST} APIs, \texttt{Datadog} \\
 
-\subsection*{Technical Stack}
-\begin{itemize}
-% Be concrete here. What can you actually work with?
-% - Which languages are you strongest in? Rank them by proficiency/recency.
-% - Frameworks: any specific ones worth calling out? (e.g., Express, Gin, FastAPI)
-% - Databases: PostgreSQL, Redis -- at what depth? Schema design? Query optimization?
-% - Infrastructure: Docker? Kubernetes? AWS/GCP services? CI/CD tools?
-% - Monitoring: Datadog -- what specifically? APM, logs, custom metrics?
-% - Testing: what kinds of tests do you write? What tools?
-% - AI tooling: Claude Code, copilot -- how do you use them concretely?
-  \item ...
-\end{itemize}
+\textbf{Data:} \texttt{PostgreSQL}, \texttt{Redis} \\
 
-\subsection*{Collaboration \& Communication}
-\begin{itemize}
-% Keep this shorter than the TPO version. Focus on what matters for a dev role.
-% - Code review culture: what do you bring to it?
-% - How do you work with other devs on shared systems?
-% - Cross-team work: how do you collaborate with mobile, QA, infra?
-% - Mentoring: how have you helped junior devs grow technically?
-% - Interdisciplinary background: frame it as "can understand novel domains quickly"
-% - Languages: Spanish, French, English
-  \item ...
-\end{itemize}
+\textbf{Practices:} SOLID, unit/integration testing, refactoring, feature flags,
+CI/CD \\
+
+\textbf{Domains:} fintech, geospatial/urbanism, neuroscience \\
+
+\textbf{Spoken languages:} Spanish (native), English (professional), French
+(schooling)
 
 \section*{Education and Training}
 
 \begin{itemize}
+  \item Product Discovery for Agile Teams @ \textit{Sense and Respond Learning}; 8 hours, intro to \textit{Lean Product Canvas}.
   \item \textit{Licenciatura} in Computer Science @ \textit{DC, FCEyN, UBA}, equivalent to Bachelor + Master with thesis, started in 2013 and finished in 2022.
   \item High school @ \textit{Lyc\'{e}e Jean Mermoz, Buenos Aires}, finished in 2013.
 \end{itemize}
-
-% Should the Product Discovery course stay? It's more product-oriented.
-% The yoga training -- keep it? It shows something about you as a person,
-% but consider whether it helps or distracts in a developer resume.
 
 \end{document}
